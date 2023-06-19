@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">
+    <h2>User Profile</h2>
+  </div>
+  <div class="card-body" id= "user_<%= user.id %>">
+    <h5 class="card-title">Name: <%= user.name %></h5>
+    <p class="card-text">Email: <%= user.email %></p>
+    <p class="card-text">Confirmed?: <%= user.confirmed? ? "Confirmed" : "Not Confirmed" %></p>
+    <p class="card-text">2FA: 
+      <%= button_to nil, class: "btn btn-warning", id: "btn_2fa", data: {confirm: "Are you sure?"} do %>
+        <%= user.two_factor ? "Turn Off" : "Turn on" %>
+      <% end %>
+    <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: "btn btn-danger float-end", data: {"turbo-confirm": "Are you sure?"} %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#btn_2fa").on("click", function(e){
+    e.preventDefault();
+    if (confirm("Are you sure?") == true)
+    {
+      $.ajax({
+        url: "/update_2fa",
+        type: "post",
+        data: {
+          user: <%= user.id %>
+        },
+        success: function(data) {
+          window.location.reload();
+        }
+      }) //end of ajax
+    }//end of if 
+  })
+</script>

@@ -1,0 +1,15 @@
+<h2>OTP</h2>
+<strong>Please enter the OTP recevied in Email</strong>
+  <div class= "row col-lg-6">
+    <%= form_tag verify_otp_path, method: :post do %>
+
+      <div class="form-field">
+        <%= text_field_tag :otp_text, "", class: "form-control" %>
+      </div>
+      <%= hidden_field_tag :user_id, params[:user] %>
+      
+      <div class="actions">
+        <%= button_tag 'submit', { type: :submit,class: "btn btn-success" } %>
+      </div>
+    <% end %>
+  </div>
